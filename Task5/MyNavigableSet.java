@@ -51,6 +51,7 @@ public class MyNavigableSet<T> extends AbstractSet<T> implements SortedSet<T> {
     }
 
     protected class MyReverseIterator<T> implements Iterator<T>{
+        
         private ArrayList<T> data;
         private int cursor;
 
@@ -137,19 +138,15 @@ public class MyNavigableSet<T> extends AbstractSet<T> implements SortedSet<T> {
      * @param element the value to match
      * @return the least element greater than or equal to e, or null if there is no such element
      */
-    public T ceiling(T element) {
-        T result = element;
-        boolean returnNull = true;
-        for (int i = 0; i < data.size(); i++) {
-            if (comparator.compare(data.get(i), element) >= 0 && comparator.compare(data.get(i), result) <= 0) {
-                result = data.get(i);
-                returnNull = false;
+     public T ceiling(T element) {
+        MyIterator iterator = new MyIterator(data);
+        while (iterator.hasNext()){
+            T result = (T) iterator.next();
+            if(comparator.compare(result, element) >= 0){
+                return result;
             }
         }
-        if (returnNull) {
-            return null;
-        }
-        return result;
+        return null;
     }
 
     /**
